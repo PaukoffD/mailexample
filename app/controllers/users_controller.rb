@@ -24,12 +24,12 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(params[:user])
+    @user = User.new(user_params)
 
     respond_to do |format|
       if @user.save
         # Сказать UserMailer отослать приветственное письмо после сохранения
-        UserMailer.welcome_email(@user).deliver_later
+        Emailer.welcome_email(@user).deliver_now
 
         format.html { redirect_to(@user, notice: 'User was successfully created.') }
         format.json { render json: @user, status: :created, location: @user }
